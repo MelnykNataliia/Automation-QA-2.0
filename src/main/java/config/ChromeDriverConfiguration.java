@@ -20,22 +20,10 @@ public class ChromeDriverConfiguration {
 	}
 
 	protected BasePage basePage = new BasePage(driver);
-	protected LoginPage userName = new LoginPage(driver);
-	protected LoginPage userPassword = new LoginPage(driver);
-	protected TestData testData = new TestData();
 
 	@BeforeEach
 	public void open() {
-		// Navigate to url
 		basePage.open("http://176.36.27.131:8180/#/login");
-
-		//Initialise Elements
-		PageFactory.initElements(driver, userName);
-		PageFactory.initElements(driver, userPassword);
-
-		// Open login page
-		userName.userName(testData.getUsername());
-		userPassword.userPassword(testData.getPassword());
 	}
 
 	@AfterEach
