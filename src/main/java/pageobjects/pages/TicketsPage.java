@@ -31,6 +31,7 @@ public class TicketsPage extends BasePage {
 	By searchTicket = By.id("search-bar");
 	By searchButton = By.xpath("//button[@id='search-bar-submit']");
 	By checkNewInnerTicket = By.partialLinkText("Test inner ticket");
+	By editTicketButton = By.id("ticket-edit-btn");
 
 	// Locators for title names and values of columns
 	public static By titles = By.xpath("//tbody/tr[1]/th[contains(text(),'  ')]");
@@ -84,7 +85,8 @@ public class TicketsPage extends BasePage {
 		GlobalHelpers.sleepWait(3000);
 		driver.findElement(searchButton).click();
 
-		logger.info("A new ticket was successfully found in the tickets list");;
+		logger.info("A new ticket was successfully found in the tickets list");
+		;
 	}
 
 	// Method finds the created Inner ticket
@@ -102,6 +104,24 @@ public class TicketsPage extends BasePage {
 		for (int i = 1; i < titleNames.size(); i++) {
 			System.out.println(titleNames.get(i).getText());
 		}
+	}
+
+	// Method edits the created ticket
+	public void editCratedTicket(String newTitle, String newCategory, String newStage) {
+		logger.info("Editing a created ticket");
+
+		driver.findElement(editTicketButton).click();
+		driver.findElement(ticketTitle).clear();
+		driver.findElement(ticketTitle).sendKeys(newTitle);
+		GlobalHelpers.sleepWait(3000);
+		driver.findElement(ticketCategory).click();
+		driver.findElement(ticketCategory).sendKeys(newCategory);
+		GlobalHelpers.sleepWait(3000);
+		driver.findElement(ticketStage).click();
+		driver.findElement(ticketStage).sendKeys(newStage);
+		driver.findElement(submitNewTicketButton).click();
+
+		logger.info("The ticket was successfully edit");
 	}
 }
 

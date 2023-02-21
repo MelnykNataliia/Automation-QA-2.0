@@ -26,6 +26,15 @@ public class ContactsPage extends BasePage {
 	By email = By.id("email");
 	By prefix = By.id("ticketPrefix");
 	By submit = By.id("contact-form-submit");
+	By searchFirstName = By.id("first-name");
+	By searchButton = By.id("search-contacts");
+	By editButton = By.id("contact-edit");
+	By editEmail = By.xpath("//div[2]/a[1]/i[1]");
+	By changeEmail = By.id("email");
+	By submitEmail = By.id("contact-form-submit");
+	By deleteButton = By.xpath("//tbody/tr[2]/td[7]/a[1]");
+
+	public static By fullName = By.xpath("//div[text()='Full name:']/following-sibling::div/p");
 
 	// Method to enter contacts page
 	public ContactsPage enterContactsPage() {
@@ -105,6 +114,46 @@ public class ContactsPage extends BasePage {
 			return driver.findElement(By.xpath("//div[contains(text(),'Last name must be at least 2 characters long.')]"));
 		}
 		return false;
+	}
+
+	// Method finds the created contact
+	public void searchCratedContact(String contactFirstName) {
+		logger.info("Searching for a created contact");
+
+		driver.findElement(searchFirstName).sendKeys(contactFirstName);
+		GlobalHelpers.sleepWait(3000);
+		driver.findElement(searchButton).click();
+		driver.findElement(By.partialLinkText(contactFirstName)).click();
+
+		logger.info("The contact was successfully found in the contacts list");
+	}
+
+	// Method edits the created contact
+	public void editCratedContact(String newFirstName, String newLastName, String newEmail) {
+		logger.info("Editing a created contact");
+
+		driver.findElement(editButton).click();
+		driver.findElement(firstName).clear();
+		driver.findElement(firstName).sendKeys(newFirstName);
+		GlobalHelpers.sleepWait(3000);
+		driver.findElement(lastName).clear();
+		driver.findElement(lastName).sendKeys(newLastName);
+		driver.findElement(editEmail).click();
+		GlobalHelpers.sleepWait(3000);
+		driver.findElement(changeEmail).clear();
+		driver.findElement(changeEmail).sendKeys(newEmail);
+		driver.findElement(submitEmail).click();
+		GlobalHelpers.sleepWait(3000);
+		driver.findElement(submit).click();
+
+		logger.info("The contact was successfully edit");
+	}
+
+	// Method deletes the created contact
+	public void deleteContact() {
+		driver.findElement(deleteButton).click();
+		GlobalHelpers.sleepWait(3000);
+		driver.switchTo().alert().accept();
 	}
 }
 
