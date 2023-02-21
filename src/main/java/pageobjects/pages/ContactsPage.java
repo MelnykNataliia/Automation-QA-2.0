@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import utils.GlobalHelpers;
 
+import java.util.logging.Logger;
+
 public class ContactsPage extends BasePage {
 	public ContactsPage(WebDriver driver) {
 		super(driver);
@@ -12,6 +14,8 @@ public class ContactsPage extends BasePage {
 	public static ContactsPage using(WebDriver driver) {
 		return new ContactsPage(driver);
 	}
+
+	Logger logger = Logger.getLogger(ContactsPage.class.getName());
 
 	// Locators for contacts field
 	By contacts = By.id("menu-contacts");
@@ -24,7 +28,11 @@ public class ContactsPage extends BasePage {
 
 	// Method to enter contacts page
 	public ContactsPage enterContactsPage() {
+		logger.info("Navigating to the Contacts page");
+
 		driver.findElement(contacts).click();
+
+		logger.info("Navigation to the Contacts page successfully completed");
 		return this;
 	}
 

@@ -3,10 +3,14 @@ package pageobjects.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.logging.Logger;
+
 public class DepartmentsPage extends BasePage {
 	public DepartmentsPage(WebDriver driver) {
 		super(driver);
 	}
+
+	Logger logger = Logger.getLogger(DepartmentsPage.class.getName());
 
 	// Locators for departments field
 	By departmentsList = By.id("menu-departments");
@@ -22,7 +26,11 @@ public class DepartmentsPage extends BasePage {
 
 	// Method to enter departments page
 	public void enterDepartmentsPage() {
+		logger.info("Navigating to the Departments page");
+
 		driver.findElement(departmentsList).click();
+
+		logger.info("Navigation to the Departments page successfully completed");
 	}
 
 	// Methods describe actions with elements
@@ -39,6 +47,10 @@ public class DepartmentsPage extends BasePage {
 
 	// Method finds the created department
 	public void findNewDepartment() {
+		logger.info("Searching for a created department");
+
 		driver.findElement(checkNewDepartment).click();
+
+		logger.info("A new department was successfully found in the departments list");
 	}
 }

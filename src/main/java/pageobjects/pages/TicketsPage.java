@@ -6,11 +6,14 @@ import org.openqa.selenium.WebElement;
 import utils.GlobalHelpers;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class TicketsPage extends BasePage {
 	public TicketsPage(WebDriver driver) {
 		super(driver);
 	}
+
+	Logger logger = Logger.getLogger(TicketsPage.class.getName());
 
 	// Locators for tickets field
 	By ticketsList = By.id("menu-tickets");
@@ -38,11 +41,17 @@ public class TicketsPage extends BasePage {
 
 	// Method to enter tickets page
 	public void enterTicketsPage() {
+		logger.info("Navigating to the Tickets page");
+
 		driver.findElement(ticketsList).click();
+
+		logger.info("Navigation to the Tickets page successfully completed");
 	}
 
 	// Methods describe actions with elements
 	public void fillAllFieldsForTicket(String newTicketTitle, String newTicketCategory, String newTicketStage, String newTicketCompany, String newTicketContact, String newTicketPriority) {
+		logger.info("Opening a form to create a new ticket, filling in all fields to create a new ticket and submitting the form");
+
 		driver.findElement(createNewTicketButton).click();
 		driver.findElement(ticketTitle).sendKeys(newTicketTitle);
 		driver.findElement(ticketCategory).sendKeys(newTicketCategory);
@@ -51,26 +60,40 @@ public class TicketsPage extends BasePage {
 		driver.findElement(ticketContact).sendKeys(newTicketContact);
 		driver.findElement(ticketPriority).sendKeys(newTicketPriority);
 		driver.findElement(submitNewTicketButton).click();
+
+		logger.info("New ticket form successfully submitted");
 	}
 
 	// Methods describe actions with elements
 	public void fillTheFormForInnerTicket(String newInnerTicketTitle) {
+		logger.info("Filling in all fields to create a new Inner ticket and submitting the form");
+
 		driver.findElement(createNewTicketButton).click();
 		driver.findElement(createNewInnerTicketButton).click();
 		driver.findElement(ticketInnerTitle).sendKeys(newInnerTicketTitle);
 		driver.findElement(submitNewInnerTicketButton).click();
+
+		logger.info("New Inner ticket form successfully submitted");
 	}
 
 	// Method finds the created ticket
 	public void findNewTicket(String newTicketTitle) {
+		logger.info("Searching for a created ticket");
+
 		driver.findElement(searchTicket).sendKeys(newTicketTitle);
 		GlobalHelpers.sleepWait(3000);
 		driver.findElement(searchButton).click();
+
+		logger.info("A new ticket was successfully found in the tickets list");;
 	}
 
 	// Method finds the created Inner ticket
 	public void findNewInnerTicket() {
+		logger.info("Searching for a created Inner ticket");
+
 		driver.findElement(checkNewInnerTicket).click();
+
+		logger.info("A new Inner ticket was successfully found in the tickets list");
 	}
 
 	// Getting list of elements and printing to the console

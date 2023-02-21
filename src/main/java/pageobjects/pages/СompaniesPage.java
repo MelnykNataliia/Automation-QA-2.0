@@ -4,10 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import utils.GlobalHelpers;
 
+import java.util.logging.Logger;
+
 public class СompaniesPage extends BasePage {
 	public СompaniesPage(WebDriver driver) {
 		super(driver);
 	}
+
+	Logger logger = Logger.getLogger(СompaniesPage.class.getName());
 
 	// Locators for companies field
 	By companiesList = By.id("menu-companies");
@@ -24,11 +28,17 @@ public class СompaniesPage extends BasePage {
 
 	// Method to enter companies page
 	public void enterCompaniesPage() {
+		logger.info("Navigating to the Companies page");
+
 		driver.findElement(companiesList).click();
+
+		logger.info("Navigation to the Companies page successfully completed");
 	}
 
 	// Methods describe actions with elements
 	public void fillAllFieldsForCompany(String newCompanyTitle, String newCompanyCountry, String newCompanyCity, String newCompanyPhone) {
+		logger.info("Opening a form to create a new company, filling in all fields to create a new company and submitting the form");
+
 		driver.findElement(createNewCompanyButton).click();
 		driver.findElement(companyTitle).sendKeys(newCompanyTitle);
 		driver.findElement(companyAddInfo).click();
@@ -37,14 +47,20 @@ public class СompaniesPage extends BasePage {
 		driver.findElement(companyPhone).sendKeys(newCompanyPhone);
 		driver.findElement(companyServiceProgram).click();
 		driver.findElement(submitNewCompanyButton).click();
+
+		logger.info("New company form successfully submitted");
 	}
 
 	// Method finds the created company
 	public void findNewCompany(String newCompanyTitle) {
+		logger.info("Searching for a created company");
+
 		driver.findElement(checkNewCompany).sendKeys(newCompanyTitle);
 		GlobalHelpers.sleepWait(3000);
 		driver.findElement(searchButton).click();
 		driver.findElement(By.partialLinkText(newCompanyTitle)).click();
+
+		logger.info("A new company was successfully found in the companies list");
 	}
 }
 

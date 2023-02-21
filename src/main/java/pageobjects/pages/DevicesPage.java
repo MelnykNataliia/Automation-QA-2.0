@@ -15,6 +15,8 @@ public class DevicesPage extends BasePage {
 		return new DevicesPage(driver);
 	}
 
+	Logger logger = Logger.getLogger(DevicesPage.class.getName());
+
 	// Locators for devices fields
 	By devices = By.id("menu-device-list");
 	By newDevice = By.id("device-list-new-device");
@@ -27,7 +29,11 @@ public class DevicesPage extends BasePage {
 
 	// Method to enter devices page
 	public DevicesPage enterDevicesPage() {
+		logger.info("Navigating to the Devices page");
+
 		driver.findElement(devices).click();
+
+		logger.info("Navigation to the Devices page successfully completed");
 		return this;
 	}
 

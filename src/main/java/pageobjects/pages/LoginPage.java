@@ -3,6 +3,8 @@ package pageobjects.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.logging.Logger;
+
 public class LoginPage extends BasePage {
 	public LoginPage(WebDriver driver) {
 		super(driver);
@@ -11,6 +13,8 @@ public class LoginPage extends BasePage {
 	public static LoginPage using(WebDriver driver) {
 		return new LoginPage(driver);
 	}
+
+	Logger logger = Logger.getLogger(LoginPage.class.getName());
 
 	// Locators for login fields
 	By loginName = By.id("username");
@@ -35,12 +39,15 @@ public class LoginPage extends BasePage {
 	}
 
 	public void login(String userName, String userPassword) {
+		logger.info("Logged in");
+
 		// Enter login & password
 		this.enterUsername(userName);
 		this.enterPassword(userPassword);
 
 		// Click on signIn button
 		this.clickSignIn();
+		logger.info("Website auth login success");
 	}
 }
 

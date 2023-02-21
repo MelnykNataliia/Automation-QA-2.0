@@ -5,11 +5,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class DashboardPage extends BasePage {
 	public DashboardPage(WebDriver driver) {
 		super(driver);
 	}
+
+	Logger logger = Logger.getLogger(DashboardPage.class.getName());
 
 	// Locators for dashboard fields
 	By dashboard = By.id("menu-dashboard");
@@ -24,17 +27,29 @@ public class DashboardPage extends BasePage {
 
 	// Method to enter dashboard
 	public void enterDashboardPage() {
+		logger.info("Navigating to the Dashboard page");
+
 		driver.findElement(dashboard).click();
+
+		logger.info("Navigation to the Dashboard page successfully completed");
 	}
 
 	// Method to enter "Done deadline" dashboard
 	public void enterDashboardDone() {
+		logger.info("Navigating to the Done Deadline");
+
 		driver.findElement(dashboardDone).click();
+
+		logger.info("Navigation to the Done Deadline successfully completed");
 	}
 
 	// Method to enter "Deadline is over" via collapse element
 	public void enterDeadLineIsOver() {
+		logger.info("Navigating to the Deadline is over");
+
 		driver.findElement(deadLineIsOver).click();
+
+		logger.info("Navigation to the Deadline is over successfully completed");
 	}
 
 	// Method gets the list of tickets "Deadline is over"
