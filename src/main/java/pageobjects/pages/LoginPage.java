@@ -8,23 +8,25 @@ public class LoginPage extends BasePage {
 		super(driver);
 	}
 
-	// Locator for login field
+	public static LoginPage using(WebDriver driver) {
+		return new LoginPage(driver);
+	}
+
+	// Locators for login fields
 	By loginName = By.id("username");
-
-	// Locator for password field
 	By password = By.id("password");
-
-	// Locator for signIn button
 	By signInButton = By.id("login-signin");
 
 	// Method to enter login
-	public void enterUsername(String userName) {
+	public LoginPage enterUsername(String userName) {
 		driver.findElement(loginName).sendKeys(userName);
+		return this;
 	}
 
 	// Method to enter password
-	public void enterPassword(String userPassword) {
+	public LoginPage enterPassword(String userPassword) {
 		driver.findElement(password).sendKeys(userPassword);
+		return this;
 	}
 
 	// Method to click on signIn button
