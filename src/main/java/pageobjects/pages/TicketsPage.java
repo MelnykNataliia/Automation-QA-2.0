@@ -15,6 +15,8 @@ public class TicketsPage extends BasePage {
 	// Locators for tickets field
 	By ticketsList = By.id("menu-tickets");
 	By createNewTicketButton = By.id("create-new-ticket");
+	By createNewInnerTicketButton = By.id("new-inner-ticket");
+	By ticketInnerTitle = By.id("title");
 	By ticketTitle = By.id("title");
 	By ticketCategory = By.id("categoryId");
 	By ticketStage = By.id("stageId");
@@ -22,8 +24,10 @@ public class TicketsPage extends BasePage {
 	By ticketContact = By.id("contactId");
 	By ticketPriority = By.id("priority");
 	By submitNewTicketButton = By.id("submit-btn");
+	By submitNewInnerTicketButton = By.id("submit-btn");
 	By searchTicket = By.id("search-bar");
 	By searchButton = By.xpath("//button[@id='search-bar-submit']");
+	By checkNewInnerTicket = By.partialLinkText("Test inner ticket");
 
 	// Locators for title names and values of columns
 	public static By titles = By.xpath("//tbody/tr[1]/th[contains(text(),'  ')]");
@@ -49,11 +53,24 @@ public class TicketsPage extends BasePage {
 		driver.findElement(submitNewTicketButton).click();
 	}
 
+	// Methods describe actions with elements
+	public void fillTheFormForInnerTicket(String newInnerTicketTitle) {
+		driver.findElement(createNewTicketButton).click();
+		driver.findElement(createNewInnerTicketButton).click();
+		driver.findElement(ticketInnerTitle).sendKeys(newInnerTicketTitle);
+		driver.findElement(submitNewInnerTicketButton).click();
+	}
+
 	// Method finds the created ticket
 	public void findNewTicket(String newTicketTitle) {
 		driver.findElement(searchTicket).sendKeys(newTicketTitle);
 		GlobalHelpers.sleepWait(3000);
 		driver.findElement(searchButton).click();
+	}
+
+	// Method finds the created Inner ticket
+	public void findNewInnerTicket() {
+		driver.findElement(checkNewInnerTicket).click();
 	}
 
 	// Getting list of elements and printing to the console
