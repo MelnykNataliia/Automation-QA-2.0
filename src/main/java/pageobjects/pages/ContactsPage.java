@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import utils.GlobalHelpers;
 
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 public class ContactsPage extends BasePage {
 	public ContactsPage(WebDriver driver) {
@@ -66,5 +67,44 @@ public class ContactsPage extends BasePage {
 		driver.findElement(submit).click();
 	}
 
+	public Object isEmailValid(String input) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+				"[a-zA-Z0-9_+&*-]+)*@" +
+				"(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+				"A-Z]{2,7}$";
+
+		Pattern pat = Pattern.compile(emailRegex);
+		if (email == null)
+			return driver.findElement(By.xpath("//div[contains(text(),'Email must be valid')]"));
+		return pat.matcher(input).matches();
+	}
+
+	public Object isEmailEmpty(String input) {
+		if (input.isEmpty()) {
+			return driver.findElement(By.xpath("//div[contains(text(),'Email is required')]"));
+		}
+		return false;
+	}
+
+	public Object validLogin(String input) {
+		if (input.isEmpty()) {
+			return driver.findElement(By.xpath("//div[contains(text(),'Login is required')]"));
+		}
+		return false;
+	}
+
+	public Object validPrefix(String input) {
+		if (input.length() >= 3 && input.length() <= 6) {
+			return driver.findElement(By.xpath("//div[contains(text(),'Tickets prefix must be from 3 to 6 characters long')]"));
+		}
+		return false;
+	}
+
+	public Object validLastName(int length) {
+		if (length >= 2) {
+			return driver.findElement(By.xpath("//div[contains(text(),'Last name must be at least 2 characters long.')]"));
+		}
+		return false;
+	}
 }
 
