@@ -26,6 +26,11 @@ public class СompaniesPage extends BasePage {
 	By checkNewCompany = By.id("name");
 	By searchButton = By.id("search-company-submit");
 
+	public static By title = By.xpath("//div[contains(text(),'Company name:')]/following-sibling::div");
+	public static By country = By.xpath("//div[contains(text(),'Country:')]/following-sibling::div");
+	public static By city = By.xpath("//div[contains(text(),'City:')]/following-sibling::div");
+	public static By phone = By.xpath("//div[contains(text(),'Phone:')]/following-sibling::div");
+
 	// Method to enter companies page
 	public void enterCompaniesPage() {
 		logger.info("Navigating to the Companies page");

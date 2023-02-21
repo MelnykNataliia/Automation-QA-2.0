@@ -174,7 +174,7 @@ public class DataBase {
 			ticketCategory.append(category);
 
 		}
-		return  ticketCategory.toString();
+		return ticketCategory.toString();
 	}
 
 	// SQL request method that return String
@@ -192,7 +192,7 @@ public class DataBase {
 			ticketStage.append(stage);
 
 		}
-		return  ticketStage.toString();
+		return ticketStage.toString();
 	}
 
 	// SQL request method that return String
@@ -210,7 +210,7 @@ public class DataBase {
 			ticketCategory.append(contact);
 
 		}
-		return  ticketCategory.toString();
+		return ticketCategory.toString();
 	}
 
 	// SQL request method that return String
@@ -228,7 +228,7 @@ public class DataBase {
 			ticketCompany.append(contact);
 
 		}
-		return  ticketCompany.toString();
+		return ticketCompany.toString();
 	}
 
 	// SQL request method that return String
@@ -246,7 +246,7 @@ public class DataBase {
 
 			ticketPriority.append(priority);
 		}
-		return  ticketPriority.toString();
+		return ticketPriority.toString();
 	}
 
 	// SQL request method that return String
@@ -284,6 +284,57 @@ public class DataBase {
 	}
 
 	// SQL request method that return String
+	public String companyCountry(String sql) throws ClassNotFoundException, SQLException {
+		this.connection();
+
+		Statement statement = con.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+
+		StringBuilder newCompanyCountry = new StringBuilder();
+
+		while (resultSet.next()) {
+			String country = resultSet.getString("country");
+
+			newCompanyCountry.append(country);
+		}
+		return newCompanyCountry.toString();
+	}
+
+	// SQL request method that return String
+	public String companyCity(String sql) throws ClassNotFoundException, SQLException {
+		this.connection();
+
+		Statement statement = con.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+
+		StringBuilder newCompanyCity = new StringBuilder();
+
+		while (resultSet.next()) {
+			String city = resultSet.getString("city");
+
+			newCompanyCity.append(city);
+		}
+		return newCompanyCity.toString();
+	}
+
+	// SQL request method that return String
+	public String companyPhone(String sql) throws ClassNotFoundException, SQLException {
+		this.connection();
+
+		Statement statement = con.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+
+		StringBuilder newCompanyPhone = new StringBuilder();
+
+		while (resultSet.next()) {
+			String phone = resultSet.getString("phone");
+
+			newCompanyPhone.append(phone);
+		}
+		return newCompanyPhone.toString();
+	}
+
+	// SQL request method that return String
 	public String managerFirstName(String sql) throws ClassNotFoundException, SQLException {
 		this.connection();
 
@@ -318,6 +369,23 @@ public class DataBase {
 	}
 
 	// SQL request method that return String
+	public String managerEmail(String sql) throws ClassNotFoundException, SQLException {
+		this.connection();
+
+		Statement statement = con.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+
+		StringBuilder email = new StringBuilder();
+
+		while (resultSet.next()) {
+			String emailAddress = resultSet.getString("login");
+
+			email.append(emailAddress);
+		}
+		return email.toString();
+	}
+
+	// SQL request method that return String
 	public String managerDepartment(String sql) throws ClassNotFoundException, SQLException {
 		this.connection();
 
@@ -332,6 +400,40 @@ public class DataBase {
 			department.append(departmentName);
 		}
 		return department.toString();
+	}
+
+	// SQL request method that return String
+	public String managerPhone(String sql) throws ClassNotFoundException, SQLException {
+		this.connection();
+
+		Statement statement = con.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+
+		StringBuilder phone = new StringBuilder();
+
+		while (resultSet.next()) {
+			String phoneNumber = resultSet.getString("phone");
+
+			phone.append(phoneNumber);
+		}
+		return phone.toString();
+	}
+
+	// SQL request method that return String
+	public String managerSkype(String sql) throws ClassNotFoundException, SQLException {
+		this.connection();
+
+		Statement statement = con.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+
+		StringBuilder skype = new StringBuilder();
+
+		while (resultSet.next()) {
+			String managerSkype = resultSet.getString("skype");
+
+			skype.append(managerSkype);
+		}
+		return skype.toString();
 	}
 
 	// SQL request method that return String
