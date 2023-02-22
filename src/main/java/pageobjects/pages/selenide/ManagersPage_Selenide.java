@@ -97,7 +97,7 @@ public class ManagersPage_Selenide extends BasePage_Selenide {
 		GlobalHelpers.sleepWait(3000);
 		submitButton.click();
 
-		logger.info("The contact was successfully edit");
+		logger.info("The manager was successfully edit");
 	}
 
 	// Method deletes the created manager

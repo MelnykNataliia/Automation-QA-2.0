@@ -1,20 +1,36 @@
 package tests;
 
+import api.contacts.*;
+import api.spec.Specifications;
+import io.qameta.allure.internal.shadowed.jackson.core.JsonProcessingException;
+import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pageobjects.pages.selenide.BasePage_Selenide;
 import pageobjects.pages.selenide.CategoriesPage_Selenide;
+import pageobjects.pages.selenide.ContactsPage_Selenide;
 import pageobjects.pages.selenide.ManagersPage_Selenide;
 import testdata.TestData;
 import utils.GlobalHelpers;
 import utils.RandomGenerator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Logger;
+
+import static io.restassured.RestAssured.given;
 
 public class Task25 extends BasePage_Selenide {
 	protected ManagersPage_Selenide managers = new ManagersPage_Selenide();
 	protected CategoriesPage_Selenide categories = new CategoriesPage_Selenide();
+	protected ContactsPage_Selenide contacts = new ContactsPage_Selenide();
+	protected Login login = new Login();
+	private final static String URL = "http://176.36.27.131:8180/rest/";
 
 	Logger logger = Logger.getLogger(Task25.class.getName());
 
@@ -309,5 +325,133 @@ public class Task25 extends BasePage_Selenide {
 		categories.deleteCategoryStage();
 
 		logger.info("The test was successfully passed");
+	}
+
+	@Test
+	@Tag("ContactsPage")
+	public void contactFlow() throws JsonProcessingException {
+		logger.info("Running a test to create a new contact");
+
+		Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecOK200());
+		Map<String, String> hashMap = new HashMap<>();
+		RandomGenerator randomManager = new RandomGenerator();
+
+		// Test data
+		String emailAddress = randomManager.getRandomEmail(6);
+		String email = randomManager.getRandomEmail(7);
+		String companyName = randomManager.getRandomString(8);
+		String prefix = randomManager.getRandomString(4).toUpperCase(Locale.ROOT);
+		String firstName = randomManager.getRandomString(7);
+		String lastName = randomManager.getRandomString(9);
+		String loginContact = randomManager.getRandomEmail(7);
+		String newEmail = randomManager.getRandomEmail(7);
+
+		// Save generated data
+		hashMap.put("emailAddress", emailAddress);
+		hashMap.put("email", email);
+		hashMap.put("name", companyName);
+		hashMap.put("ticketPrefix", prefix);
+		hashMap.put("firstName", firstName);
+		hashMap.put("lastName", lastName);
+		hashMap.put("login", loginContact);
+		hashMap.put("newEmail", newEmail);
+
+		EmailList emailList = new EmailList(false, hashMap.get("emailAddress"), false, false, true);
+
+		ArrayList<EmailList> arrayEmailList = new ArrayList<>();
+		arrayEmailList.add(emailList);
+
+		Company company = new Company(hashMap.get("email"), true, hashMap.get("name"), 0, hashMap.get("ticketPrefix"));
+		Contact contact = new Contact(-1, arrayEmailList, hashMap.get("firstName"), hashMap.get("lastName"), hashMap.get("login"));
+
+		NewContactDto newContact = new NewContactDto(company, contact);
+
+		ObjectMapper Obj = new ObjectMapper();
+		String jsonStr = Obj.writeValueAsString(newContact);
+
+		// Website login
+		login.getLogin();
+
+		// Fill all fields and create a new contact
+		Response response = given()
+				.sessionId(login.session)
+				.when()
+				.body(jsonStr)
+				.post("contact-with-company")
+				.then().log().all()
+				.extract().response();
+		JsonPath jsonPath = response.jsonPath();
+		String contactId = jsonPath.get("contactId").toString();
+
+		logger.info("New contact was successfully created");
+
+		logger.info("Running a test to check created contact");
+
+		// Open browser
+		BasePage_Selenide.open();
+
+		// Website login
+		BasePage_Selenide.login(TestData.userName, TestData.userPassword);
+
+		// Page load delay
+		GlobalHelpers.sleepWait(3000);
+
+		// Open Contacts page
+		contacts.enterContactsPage();
+
+		// Find the created contact and open information
+		contacts.searchCratedContact(hashMap.get("firstName"));
+
+		// Compare saved data with field values
+		Assertions.assertEquals(hashMap.get("firstName") + " " + hashMap.get("lastName"), contacts.fullName.getText());
+		Assertions.assertEquals(hashMap.get("ticketPrefix"), contacts.prefix.getText());
+		Assertions.assertEquals(hashMap.get("login"), contacts.login.getText());
+
+		logger.info("Created contact was successfully found in the contacts list");
+
+		logger.info("Running a test to edit contact information");
+
+		// Page load delay
+		GlobalHelpers.sleepWait(5000);
+
+		// Edit the contact information
+		contacts.editCratedContact(hashMap.get("newEmail"));
+
+		logger.info("Contact information was successfully edited");
+
+		logger.info("Running a test to delete created contact");
+
+		// Website login
+		login.getLogin();
+
+		given()
+				.sessionId(login.session)
+				.when()
+				.delete("contact/" + contactId)
+				.then().log().all()
+				.assertThat()
+				.statusCode(200)
+				.extract().response();
+
+		logger.info("Created contact was successfully deleted");
+
+		logger.info("Running a test to check if a contact has been deleted");
+
+		// Open browser
+		BasePage_Selenide.open();
+
+		// Website login
+		BasePage_Selenide.login(TestData.userName, TestData.userPassword);
+
+		// Page load delay
+		GlobalHelpers.sleepWait(3000);
+
+		// Open Contacts page
+		contacts.enterContactsPage();
+
+		// Find the created contact
+		contacts.isContactDeleted(hashMap.get("firstName"));
+
+		logger.info("The test was successfully passed: Element not found");
 	}
 }
