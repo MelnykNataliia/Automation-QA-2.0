@@ -23,7 +23,7 @@ public class Task24 extends ChromeDriverConfiguration {
 	Logger logger = Logger.getLogger(Task24.class.getName());
 
 	@Test
-	@Tag("ContactPage")
+	@Tag("ContactsPage")
 	public void editContact() {
 		logger.info("Running a test to edit contact information");
 
@@ -67,7 +67,7 @@ public class Task24 extends ChromeDriverConfiguration {
 	}
 
 	@Test
-	@Tag("ContactPage")
+	@Tag("ContactsPage")
 	public void deleteContact() {
 		logger.info("Running a test to delete contact");
 
@@ -88,7 +88,7 @@ public class Task24 extends ChromeDriverConfiguration {
 	}
 
 	@Test
-	@Tag("TicketPage")
+	@Tag("TicketsPage")
 	public void editTicket() {
 		logger.info("Running a test to edit ticket information");
 
@@ -104,7 +104,7 @@ public class Task24 extends ChromeDriverConfiguration {
 		// Page load delay
 		GlobalHelpers.sleepWait(3000);
 
-		// Edit the contact information
+		// Edit the ticket information
 		tickets.editCratedTicket(newTicketTitle, newTicketCategory, newTicketStage);
 
 		// Page load delay

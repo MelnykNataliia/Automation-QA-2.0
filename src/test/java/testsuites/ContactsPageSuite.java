@@ -10,8 +10,8 @@ import tests.Task24;
 @SelectClasses({
 		Task24.class
 })
-@ExcludeTags("TicketPage")
+@ExcludeTags("TicketsPage")
 
-public class ContactPageSuite {
+public class ContactsPageSuite {
 
 }
